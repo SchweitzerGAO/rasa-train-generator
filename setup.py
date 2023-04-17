@@ -5,10 +5,10 @@ setup(
     version="0.0.1",
     keywords=["pip", "rasa_gen"],
     description="Rasa train data generator",
-    long_description="Rasa train data generator version 0.0.1",
-    license="MIT Licence",
+    long_description="https://github.com/SchweitzerGAO/rasa-train-generator/blob/main/README.md",
+    license="MIT License",
 
-    url="https://github.com/Adenialzz/SongUtils",
+    url="https://github.com/SchweitzerGAO/rasa-train-generator",
     author="Charles Gao",
     author_email="charlesgao2101024@gmail.com",
 
