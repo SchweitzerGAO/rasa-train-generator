@@ -3,6 +3,7 @@ import os
 import random
 
 
+
 class RandomValue:
     def __init__(self, lb, ub, mode='int', precision=1):
         self.lb = lb
