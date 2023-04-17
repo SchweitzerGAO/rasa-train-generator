@@ -1,19 +1,25 @@
-# RasaGen: A [Rasa](https://github.com/RasaHQ/rasa) chatbot training data generator
-([中文版](README_CN.md)) | (English)
-## Installation
+# RasaGen: 一个 [Rasa](https://github.com/RasaHQ/rasa) 聊天机器人训练数据生成工具
 
-Install the latest version of `RasaGen` by running:
+(中文版)|([English](README.md))
+
+## 安装
+
+可通过运行
 ```
 pip install rasa_gen
-```
-or install with source code:
+``` 
+
+安装最新版本
+
+或可运行
 ```
 pip install git+https://github.com/SchweitzerGAO/rasa-train-generator
 ```
-## Usage
-**An Example**
+以通过源码安装
 
-_Though the template in this example is in Chinese, It supports mainstream languages_
+## 使用方法
+
+**程序示例**
 ```python
 from rasa_gen import Template, Generator
 
@@ -34,11 +40,10 @@ if __name__ == '__main__':
     generator = Generator('test_intent').add_template(template)
     generator.generate(50, './test.yml')
 ```
-**Creating a `Template`**
 
-As shown in the example, 
-you can create a template by creating a `Template` instance and add sentence, 
-word and random value templates in a stream 
+**创建`Template`**
 
-**Using a `Generator`**
+
+
+**使用`Generator`**
 

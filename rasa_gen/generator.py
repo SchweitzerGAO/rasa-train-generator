@@ -1,23 +1,27 @@
 from typing import List, Union, Any
 import os
 import random
-
+import cn2an
 
 
 class RandomValue:
-    def __init__(self, lb, ub, mode='int', precision=1):
+    def __init__(self, lb, ub, mode='int', precision=1, p_cn=0):
         self.lb = lb
         self.ub = ub
         self.mode = mode
         self.precision = precision
+        self.p_cn = p_cn
 
-    def rand_value(self):
+    def rand_value(self) -> Union[int, float, str]:
         if self.mode == 'int':
-            return random.randint(self.lb, self.ub)
+            ret = random.randint(self.lb, self.ub)
         elif self.mode == 'float':
-            return round(random.uniform(self.lb, self.ub), self.precision)
+            ret = round(random.uniform(self.lb, self.ub), self.precision)
         else:
             raise ValueError(f'Mode {self.mode} is not supported!')
+        if random.random() < self.p_cn:
+            ret = cn2an.an2cn(ret)
+        return ret
 
 
 class Template:
@@ -27,11 +31,10 @@ class Template:
 
     def add_sentence(self, sentence_template: Union[str, List[str]]):
         """
-        :param sentence_template: sentence template where labeled entities shall be in the format:
-        '[{}](label)' or [{}]{entity:"entity",role:"role"}
-
-        Example:从[{}]{{"entity":"location","role":"departure"}}去[{}]{{"entity":"location","role":"destination"}}
-
+        Add sentence templates
+        :param sentence_template: sentence template where labeled entities shall be in the format:'[{}](label)' or [{}]{entity:"entity",role:"role"}
+        >>> # an example
+        >>> example = '从[{}]{{"entity":"location","role":"departure"}}去[{}]{{"entity":"location","role":"destination"}}'
         :return: self
         """
         if isinstance(sentence_template, List):
@@ -44,6 +47,7 @@ class Template:
 
     def add_word(self, word_template: Union[Any, List[Any]], mode='new'):
         """
+        Add word templates corresponding to a sentence template
         :param word_template: words that to be formatted into the sentence template
         :param mode: 'new': add a new list of word;
                     'extend': extend the last element of the word list
@@ -55,21 +59,25 @@ class Template:
             self.fillings[-1].extend(word_template)
         return self
 
-    def add_random_val(self, lb, ub, mode='int', precision=1):
+    def add_random_val(self, lb, ub, mode='int', precision=1, p_cn=0):
         """
+        Add a random number generator
         :param lb: lower bound
         :param ub: upper bound
         :param mode: 'int': generates a random integer in range [lb,ub];
                     'float': generates a random float number in range [lb,ub];
         :param precision: The precision needed in 'float' mode
+        :param p_cn: The probability that a number is converted to Chinese
         :return: self
         """
-        self.fillings.append(RandomValue(lb, ub, mode, precision))
+        self.fillings.append(RandomValue(lb, ub, mode, precision, p_cn))
         return self
 
 
 class Generator:
-    def __init__(self, intent_name):
+    def __init__(self, intent_name: str):
+        if not isinstance(intent_name,str):
+            raise TypeError(f'Type {type(intent_name)} is not supported for `intent_name`!')
         self.intent_name = intent_name
         self.templates = []
 
@@ -98,12 +106,13 @@ class Generator:
 
     def add_template(self, templates: Union[List[Template], Template]):
         """
+        Add a `Template` instance to generate data
         :param templates: `Template` instances
         :return: self
         """
         if isinstance(templates, List):
             self.templates.extend(templates)
-        elif isinstance(templates,Template):
+        elif isinstance(templates, Template):
             self.templates.append(templates)
         else:
             raise TypeError(f'Type {type(templates)} is not supported for parameter `templates`!')
@@ -111,7 +120,7 @@ class Generator:
 
     def generate(self, n=0, to_file=None, patience=-1):
         """
-        Generate training data for Rasa chat bot
+        Generate training data for Rasa chatbot
         :param n: The number of sentences to generate
         :param to_file: The file to write
         :param patience: if the sentences set keeps the same for `patience` times, stop sentence generation
