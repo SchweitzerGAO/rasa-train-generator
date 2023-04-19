@@ -10,10 +10,10 @@ or install with source code:
 ```
 pip install git+https://github.com/SchweitzerGAO/rasa-train-generator
 ```
-## Usage
+## Basic usage
 **An Example**
 
-_Though the template in this example is in Chinese, It supports mainstream languages_
+_Though the template in this example is in Chinese, It supports mainstream languages like English, French and Japanese etc._
 
 ```python
 from rasa_gen import NLUTemplate, Generator
@@ -38,11 +38,12 @@ generator.generate_from_template(50, './test_template.yml')
 A detailed example is in `example.py`
 
 
-**Creating a `Template`**
+**Creating a `NLUTemplate`**
 
 As shown in the example, 
-you can create a training data generating template by creating a `Template` instance and add sentence, 
-word and random value to fill in the template in a streaming way.
+you can create a NLU training data generating template by creating a `NLUTemplate` instance and add sentence, 
+word and random value to fill 
+in the template in a streaming way.
 
 **Using a `Generator`**
 
@@ -53,12 +54,31 @@ with specifying the name of the key of the training data.
 For example, 
 you shall specify the name of `intent` 
 when generating data for an intent
-or the name of `lookup` for a lookup table 
+or the name of `lookup` for a lookup table.
 
-**For now, only `intent` and `lookup` data types are supported.
+**Note: If you are generating data from a csv or tsv file 
+with the name of `lookup` in the first column, 
+there is no need to specify 
+the name when creating a `Generator`**
+
+For now, only `intent` and `lookup` data types in `nlu` class are supported.
 Other types like `rule` and `story` 
-will be supported in the future**
+will be supported in the future
 
-2. Generate data
-There are 3 supported ways 
+2. Generate data by a `Generator`
 
+There are 2 supported ways to generate data by a `Generator`
+- From a template (Recommended for `intent` data)
+
+You can add a `Template` instance by `add_template` method and generate the data by `generate_from_template` method.
+
+- From a file (Recommended for `lookup` data)
+
+There is no need to create `Template` instances. 
+Just specify the input file and output file 
+and use the `generate_from_file` method will be OK. 
+
+## Coming Soon...
+- Generating `story`, `synonym` and `rule` data
+
+- The detailed [document](https://github.com/SchweitzerGAO/rasa-train-generator) will be released soon.
