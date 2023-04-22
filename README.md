@@ -1,5 +1,5 @@
 # RasaGen: A [Rasa](https://github.com/RasaHQ/rasa) chatbot training data generator
-([中文版](README_CN.md)) | (English)
+([中文版](docs/README_CN.md)) | (English)
 ## Installation
 
 Install the latest version of `RasaGen` by running:
@@ -56,11 +56,6 @@ you shall specify the name of `intent`
 when generating data for an intent
 or the name of `lookup` for a lookup table.
 
-**Note: If you are generating data from a csv or tsv file 
-with the name of `lookup` in the first column, 
-there is no need to specify 
-the name when creating a `Generator`**
-
 For now, only `intent` and `lookup` data types in `nlu` class are supported.
 Other types like `rule` and `story` 
 will be supported in the future
@@ -77,6 +72,16 @@ You can add a `Template` instance by `add_template` method and generate the data
 There is no need to create `Template` instances. 
 Just specify the input file and output file 
 and use the `generate_from_file` method will be OK. 
+
+**Note**: 
+
+- If the data is from a `txt` file:
+
+Remember to specify the key of this `Generator` and there shall only be value of the same key in the file without the key of the data
+- If the data is from a `csv` or `tsv` file:
+
+ You don't need to specify the key of this `Generator` there shall be 2 columns with the first column key (can be various) and the second one value. 
+ Don't forget to set `has_header=True` if there is a header in the file.
 
 ## Coming Soon...
 - Generating `story`, `synonym` and `rule` data

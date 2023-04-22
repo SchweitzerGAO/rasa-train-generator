@@ -1,6 +1,6 @@
 # RasaGen: 一个 [Rasa](https://github.com/RasaHQ/rasa) 聊天机器人训练数据生成工具
 
-(中文版)|([English](README.md))
+(中文版)|([English](../README.md))
 
 ## 安装
 
@@ -47,14 +47,18 @@ generator.generate_from_template(50, './test_template.yml')
 
 创建`NLUTemplate`时，需要通过`add_sentence`方法指定句子模板，
 通过`add_word`方法指定向句子模板内填充的词语列表
-通过`add_random_val`方法在句子中填充随机数
+通过`add_random_val`方法在句子中填充随机数。
 
 **使用`Generator`**
 
 1. 创建`Generator`
-
+- 若要生成 `nlu` 下 `intent` 类型的训练数据，则需在创建 `Generator
+`时指定 `intent`的名称。
+- 若要生成 `nlu` 下 `lookup` 类型的训练数据，无需在创建`Generator`时指定
+`lookup`的名称
 
 2. 生成训练数据
+- 
 
 ## 即将推出
 
