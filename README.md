@@ -32,8 +32,8 @@ if __name__ == '__main__':
     template = NLUTemplate().add_sentence(sentence_template)\
                             .add_word(word_template)\
                             .add_random_val(16, 30)
-generator = Generator('test_intent').add_template(template)
-generator.generate_from_template(50, './test_template.yml')
+    generator = Generator('test_intent').add_template(template)
+    generator.generate_from_template(50, './test_template.yml')
 ```
 A detailed example is in `example.py`
 
